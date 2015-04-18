@@ -1,0 +1,125 @@
+\documentclass[12pt,a4paper]{bachelor}
+
+\usepackage[slovak,english]{babel}
+%\usepackage{ucs}
+\usepackage{amsmath}
+\usepackage{amsfonts} %amsthm ?
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[top=2.5cm, bottom=2.5cm, right=2cm, left=3.5cm]{geometry}  %okraje
+
+\usepackage{graphicx}
+\usepackage{times}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[bf,belowskip=-18pt,aboveskip=4pt]{caption}
+
+\usepackage[natbib=true, style=fmph]{biblatex}
+\bibliography{bibliography}
+
+\usepackage{float}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+%toto sposobi ze slova sa nebudu na konci riadkov rozdelovat pomlckami 
+\tolerance=100000000
+\hyphenpenalty 10000000
+\exhyphenpenalty 10000000
+
+%zadefinovane premenne ktore sa potom pouzivaji na patricnych miestach
+\def\skola{COMENIUS UNIVERSITY IN BRATISLAVA}
+\def\fakulta{Faculty of Mathematics, Physics and Informatics}
+\def\nazov{Performance and Speed Optimizations of WordPress-Based Web Application and its Underlying Server Stack}
+\def\autor{Rastislav Lamoš}
+
+
+\usepackage[pdftex,bookmarks=true]{hyperref}
+\hypersetup{
+colorlinks=true,
+linkcolor=black,
+urlcolor=black,
+pdftitle={\nazov},
+pdfauthor={\autor},
+pdfsubject={\fakulta}
+}
+
+\usepackage[toc,nopostdot]{glossaries}
+\loadglsentries{glossary}
+\makeglossaries
+
+\title{Univerzita Komenského v Bratislave Fakulta Matematiky, Fyziky a Informatiky}
+\author{\autor}
+
+\hypersetup{citecolor=black}
+
+\setlength{\parindent}{0pt} 
+\definecolor{light-gray}{gray}{0.93}
+\definecolor{darkgray}{rgb}{0.2,0.2,0.2}
+\definecolor{brown}{rgb}{0.3,0.15,0.0}
+
+%formatovanie zdrojoveho kodu - pre viac info a moznosti pouzi google
+\lstset{ %
+basicstyle=\footnotesize\ttfamily, 
+backgroundcolor=\color{light-gray},  
+language=PHP,
+breaklines=true,
+%columns=flexible,  
+showspaces=false, % show spaces adding particular underscores
+showstringspaces=false, % underline spaces within strings
+escapeinside={\%*}{*)}, % if you want to add a comment within your code
+commentstyle=\color{darkgray},
+stringstyle=\color{brown},
+}
+%nastavenie klucovych slov ktore maju byt inak zvyraznene
+\lstset{
+morekeywords={try,class,extends,__construct,var, construct,this,parent,catch,new,protected,private,public,function,return}, 
+keywordstyle=\color{black}\bfseries
+}
+
+%koniec nastaveni a tu uz zacina obsah
+\begin{document}
+
+\input partials-tex/firstpages.tex
+\input partials-tex/abstract.tex
+
+\printglossaries
+
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\newpage
+
+
+\chapter{Introduction}
+\input partials-tex/01-introduction.tex
+
+\chapter{Configuring testing environment}
+\input partials-tex/02-configuring-testing-env.tex
+
+\chapter{Benchmarking server software}
+\input partials-tex/03-bench-server-software.tex
+
+\chapter{Caching}
+\input partials-tex/04-caching.tex
+
+\chapter{Client-side performance optimizations}
+\input partials-tex/05-client-side-optimizations.tex
+
+\chapter{Source code performance optimizations}
+\input partials-tex/06-source-code-optimizations.tex
+
+\chapter{Concluding remarks}
+\input partials-tex/07-concluding-remarks.tex
+
+\chapter{Future work}
+\input partials-tex/08-future-work.tex
+
+\printbibliography
+
+
+
+\label{totalpages}
+
+\end{document}
