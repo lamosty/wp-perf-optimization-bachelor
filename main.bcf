@@ -1985,6 +1985,9 @@
     <bcf:citekey order="19">Study:Perf-WPEngine</bcf:citekey>
     <bcf:citekey order="20">Study:Perf-XYU.io</bcf:citekey>
     <bcf:citekey order="21">Study:Perf-XYU.io</bcf:citekey>
+    <bcf:citekey order="22">Hosting:vpsfree.cz</bcf:citekey>
+    <bcf:citekey order="23">Hosting:do.com</bcf:citekey>
+    <bcf:citekey order="24">Ansible:install</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" type="entry" label="nty">
   <bcf:sorting>

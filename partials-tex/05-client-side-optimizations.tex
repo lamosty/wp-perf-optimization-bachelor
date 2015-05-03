@@ -1,7 +1,29 @@
 \section{Measurement tools}
 
+To measure how well we do client-side optimizations, we need to be comfortable with using some tools. There are two well-made online apps for this purpose:
+gtmetrix.com
+pagespeed.com
+
+GTMetrix measures these things:
+- ..
+
 \section{Assets minification and concatenation}
+
+WordPress has an API for working with assets, wp\_register\_script/style, wp\_enqueue\_script/style. By using the API, we can collect all the assets and modify them before returning the HTML output. To reduce the size of the assets as well as reduce the roundtrip redundancy (latency), we can also concatenate the assets into fewer files. In order to do this automatically, the best approach is to use a plugin. One of the most used plugins for minification and concatenation is W3 Total Cache.
+
+After installing W3TC, open up the Minification page. As we can see, there are several options:
+-
+-
+
+Using some themes, we are able to perform automatic minification and concatenation without any problems. However, sometimes we have to manually select the scripts and styles to minify, trying one by one, seeing if it breaks the site or not.
+
+Lastly, we need to modify the Nginx rules to accomodate the new minified files.
 
 \section{Assets compression}
 
-\section{Content delivery network}
+We can also compress assets with Gzip compression. Most modern browsers support it by default. To have the resources compressed, we need to add these rules into Nginx configuration file.
+
+\section{CloudFlare Content delivery network}
+
+CDN is a great way to save resources of your server, redistribute the assets across the world (lower latencies) and have a DDOS protection. CloudFlare is a solution for this. They offer a free plan with full page caching, images caching and compression, DDOS protection, as well as minification which we turn off.
+

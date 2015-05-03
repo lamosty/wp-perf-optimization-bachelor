@@ -1,7 +1,21 @@
 \section{WordPress architecture in brief}
 
+WordPress is based on event-driven architecture, observer pattern. There are filters and action on which functions can be hooked during the execution time. This way, WordPress core, themes and plugins as well can be altered in their behavior.
+
+To get the most performance of WordPress, we need to utilize the most suitable hooks for the function. For example, if I want to perform an operation on a custom post type when saving it (transitional state), I could hook to a post transitional generic function hook. On the other hand, I can hook into a specific action executed only for the specific post type, thus saving resources and time.
+
 \section{Profiling web application with xhprof}
 
-\section{Offloading code execution to client-side}
+Xhprof is a PHP-based web application used for profiling your codebase. On each request, xhprof analyzes the callstacks, functions and computes all the time and memory it takes to execute a function.
+
+<picture>
+
+<features>
+
+<how to install/use>
+
+\section{Using AJAX in plugins and themes}
+
+Another useful technique for increasing the performance of your WordPress-powered web app is to let the client perform some computations. We can output a page and compute additional data through ajax dynamically, thus the site will appear faster to the end user. We can also offload some computations to the client-side, such as getting external data, etc.
 
 

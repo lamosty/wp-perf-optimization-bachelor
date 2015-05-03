@@ -1,3 +1,42 @@
 \section{Server parameters}
 
+The benchmarking and WordPress optimizations will be done on a Ubuntu-based VPS server. Ubuntu comes with a prebuilt software packages (through apt-get package handling utility), therefore it is quick and quite easy to install and set up applications we will use.
+
+The author of the work has decided to use vpsfree.cz \cite{Hosting:vpsfree.cz} as the server provider. However, content of this work can be reproduced on any kind of modern Ubuntu hosting platforms such as digitalocean.com \cite{Hosting:do.com}.
+
+Specification of the testing server are as follows:
+\begin{itemize}
+	\item 3x CPU
+	\item 4GB RAM
+	\item 300Mbps connectivity
+\end{itemize}
+
+We will be using Ubuntu version 14.04.
+
 \section{Ansible automation}
+
+Before benchmarking the performance of various web serving software, we have to install and configure the server. However, if done manually, it is a tedious task and takes a lot of time. One of the solutions to this problem is to use an automation tool. \\
+
+Ansible is a modern IT automation tool. It is a command line application which runs from a host computer, executing commands on remote servers. The main parts of Ansible are tasks and modules. \\
+
+Ansible Task has a name describing, in short, what it does. The task runs single Ansible module which performs some operations on the server. These modules are subprograms that can usually take several arguments, altering its behavior. \\
+
+For better organization, tasks can be grouped into roles and playbooks. Ansible Role is a logical container for multiple related tasks aiming to accomplish a single goal, like installing and setting up Nginx.  An Ansible Playbook is a file specifying roles which should be run on specific servers. These servers are listed in a hosts file located within the Ansible project directory. \\
+
+Ansible files (except for the hosts) are written in the YAML syntax. It is straightforward to read and understand. The author of the work has prepared several playbooks which will provision the whole server so it can be benchmarked. They are located in the appendix of the work.
+
+\section{Installing required software on the server}
+
+We are going to install all required software on our testing server. Copy the attached wordpress-ansible folder or clone its GitHub repository to your local computer. In the folder, we can find a few playbooks, hosts file, variables and roles. \\
+
+The first step is editing the hosts file. Put the IP address or hostname of your testing server in the file and assign it to the webservers group. \\
+
+Secondly, we need to install Ansible on our local computer. Official Ansible documentation \cite{Ansible:install} explains how to do it. \\
+
+The next step is to edit the group variables for our testing server. Open the group\_vars/webservers file and modify it to your needs. If you are satisfied with the default values, there is no need to change it. \\
+
+After completing all the previous steps, navigate to the wordpress-ansible folder in your command line and execute following command:
+
+ansible-playbook -i hosts install-all-software.yml
+
+During the installation process, Ansible will inform you about the status of executed tasks, whether they went successfully or not. <information about success>. We are now ready to benchmark web serving software.
