@@ -2,7 +2,7 @@
 
 The benchmarking and WordPress optimizations will be done on a Ubuntu-based VPS server. Ubuntu comes with a prebuilt software packages (through apt-get package handling utility), therefore it is quick and quite easy to install and set up applications we will use.
 
-The author of the work has decided to use vpsfree.cz \cite{Hosting:vpsfree.cz} as the server provider. However, content of this work can be reproduced on any kind of modern Ubuntu hosting platforms such as digitalocean.com \cite{Hosting:do.com}.
+We are going to use vpsfree.cz \cite{Hosting:vpsfree.cz} as the server provider. However, content of this work can be reproduced on any kind of modern Ubuntu hosting platforms such as digitalocean.com \cite{Hosting:do.com}.
 
 Specification of the testing server are as follows:
 \begin{itemize}
@@ -23,11 +23,11 @@ Ansible Task has a name describing, in short, what it does. The task runs single
 
 For better organization, tasks can be grouped into roles and playbooks. Ansible Role is a logical container for multiple related tasks aiming to accomplish a single goal, like installing and setting up Nginx.  An Ansible Playbook is a file specifying roles which should be run on specific servers. These servers are listed in a hosts file located within the Ansible project directory. \\
 
-Ansible files (except for the hosts) are written in the YAML syntax. It is straightforward to read and understand. The author of the work has prepared several playbooks which will provision the whole server so it can be benchmarked. They are located in the appendix of the work.
+Ansible files (except for the hosts) are written in the YAML syntax. It is straightforward to read and understand. We have prepared several playbooks which will provision the whole server so it can be benchmarked. They are located in the appendix of the work.
 
 \section{Installing required software on the server}
 
-We are going to install all required software on our testing server. Copy the attached wordpress-ansible folder or clone its GitHub repository to your local computer. In the folder, we can find a few playbooks, hosts file, variables and roles. \\
+We are going to install all the required software on our testing server. Copy the attached wordpress-ansible folder or clone its GitHub repository to your local computer. In the folder, we can find a few playbooks, hosts file, variables and roles. We will be referring to this folder by the name "wordpress-ansible" in the work. \\
 
 The first step is editing the hosts file. Put the IP address or hostname of your testing server in the file and assign it to the webservers group. \\
 
@@ -40,3 +40,30 @@ After completing all the previous steps, navigate to the wordpress-ansible folde
 ansible-playbook -i hosts install-all-software.yml
 
 During the installation process, Ansible will inform you about the status of executed tasks, whether they went successfully or not. <information about success>. We are now ready to benchmark web serving software.
+
+\section{Using loader.io for load testing}
+
+Apart from having a server running WordPress-based site, we need a tool for load testing the server. Initially, we used a popular command line utility called "ab" (standing for Apache Bench). However, this approach also required a second server from which the ab utility would be run. What is more, storing the tests results and plotting them on charts with ab is not trivial. \\
+
+We found a simple cloud-based load testing service called "loader.io" \cite{Loader.io:main_site}. In a subscription, free of charge, we get 10,000 clients (requests) per test and one target host. For our purposes, these parameters are enough. \\
+
+After creating an account at loader.io and adding a target host (our testing VPS server), we are presented with a dialog to verify the ownership of the server. While putting the token manually in a text file to our WordPress site directory will allow loader.io to verify the server, it is better to come up with an Ansible playbook which would automate this task for us. Below is the YAML definition file of the playbook.
+
+\begin{lstlisting}
+---
+- name: Loader.io host verification >
+ 
+  hosts: webservers
+  remote_user: root
+  vars:
+    token: <YOUR-TOKEN-HERE>
+ 
+  tasks:
+  - name: Install loader.io verification token
+    shell: echo {{ token }} > {{ token }}.txt
+    args:
+      chdir: "{{ remote_wordpress_dir }}"
+      creates: "{{ remote_wordpress_dir}}/{{ token }}.txt"
+\end{lstlisting}
+
+Replace <YOUR-TOKEN-HERE> placeholder with your verification token and save the playbook as "loader.io-verification.yml". Whenever we provision a new testing WordPress site, we only need to run the loader.io-verification.yml playbook to have the token inserted to the site.

@@ -1,12 +1,30 @@
-\section{Apache with mod\_php}
-
 The first step is to compare the performance of Apache and Nginx web serving software. However, it is not necessary to compare these software in their speed of serving static content (for example HTML files) because it has been proven and because of Nginx architecture that Nginx is more performant in this manner.
 
 What is interesting to compare, though, is running of PHP under Apache and Nginx.
 
-Apache has a process-based architecture. When a request is sent, Apache starts to process it one by one, gradually. It spawns multiple threads to handle larger number of requests. However, these threads are standalone processes which have to load all settings and modules so they are usually taking a large amounts of RAM.
+\section{Apache with mod\_php}
 
-In most cases, PHP is loaded as Apache module. It has the advantage of being loaded directly into the thread, not needing to relay the request further. Disadvantages are that even if the request is for a static resource such as CSS or JS file, Apache loads all modules, including mod\_php for this. RAM and CPU usage therefore increases.
+"Apache supports a variety of features, many implemented as compiled modules which extend the core functionality." "Instead of implementing a single architecture, Apache provides a variety of MultiProcessing Modules (MPMs), which allow Apache to run in a process-based, hybrid (process and thread) or event-hybrid mode, to better match the demands of each particular infrastructure." \cite{Apache:Wiki}\\
+
+In a default configuration, when HTTP requests are received, Apache starts to process them one by one. It spawns multiple child processes to handle the load. However, these proccesses are standalone, meaning they initialize all modules (including mod\_php) even for static file requests. This behavior results in high RAM usage as seen on figure \ref{fig:apache_mod_php}. \\
+
+mod\_php is a PHP interpreter module for Apache. It is the most common way of executing PHP scripts when using Apache HTTP. The module is loaded in each Apache process, thus a request for a PHP script is executed directly within the process, not being relayed to another server with the ability to run the script. The main disadvantage to embedding PHP inside Apache is that if a user is requesting a static resource such as CSS, JS or an image, it still has to go through Apache process with PHP module, therefore increasing RAM and CPU usage.
+
+\subsection{Load testing Apache with mod\_php}
+
+We are going to load test Apache with mod\_php running a simple WordPress-powered site. Within your command line, navigate to the wordpress-ansible directory and run the "apache\_mod\_php.yml" Ansible playbook:
+
+
+\begin{lstlisting}
+ansible-playbook -i hosts apache_mod_php.yml
+\end{lstlisting}
+
+The playbook will configure Apache and create a virtual host for the WordPress site. We are using a default Apache HTTP configuration file without any performance modifications. \cite{WP_Ansible:apache.conf}\\
+
+To deploy the simple WordPress site, run the "wordpress\_basic.yml" Ansible playbook. It will download the latest version of WordPress with the default theme and installs the database tables. We are now ready to carry out the testing. \\
+
+At the loader.io load testing service, we have created a new test \cite{Loader.io:apache_mod_php}, configuring it to send from 0 to 200 simultaneous client requests to the index of our testing server for a duration of 30 seconds. Figure \ref{fig:apache_mod_php} depicts the final chart.
+
 
 \begin{figure}[H]
 \begin{center}
@@ -16,6 +34,10 @@ In most cases, PHP is loaded as Apache module. It has the advantage of being loa
 \end{center}
 \end{figure}
 
+This chart shows the average server response times when a number of simultaneous client requests are sent to it. We can observe that even under a high load of 200 concurrent requests the average response time is under 2 seconds. It grows approximately linearly. \\
+
+However, to truly see how the server copes with the load, the figures \ref{fig:apache_mod_php_2s} and \ref{fig:apache_mod_php_25s} come in handy. They represent screenshots of Htop interactive process viewer \cite{Htop:main_site} during 2 and 25 seconds into the load testing, respectively.
+
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.5]{figures/Apache_mod_php_2s.png}
@@ -23,6 +45,18 @@ In most cases, PHP is loaded as Apache module. It has the advantage of being loa
 \label{fig:apache_mod_php_2s}
 \end{center}
 \end{figure}
+
+On the screenshot, we can see a table of currently running processes. The columns RES, CPU\% and MEM\% show the RAM usage in kilobytes, CPU usage in percentage and RAM usage in percentage of a process, respectively. What is more, there are several gauges, visually depicting the usage or particular CPU core (or thread), RAM and Linux Swap. Opening the Htop's help screen (F1 in Htop), the gauges are explained as follows:
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.5]{figures/htop_help_gauges.png}
+\caption{Screenshot of Htop's help screen explaining the main gauges}
+\label{fig:htop_help_gauges}
+\end{center}
+\end{figure}
+
+It is crucial to notice that the yellow bars in the Memory bar section show cached memory, which is not counted towards the used memory since it can be misleading at times (will discuss this a bit later).
 
 \begin{figure}[H]
 \begin{center}
@@ -32,13 +66,15 @@ In most cases, PHP is loaded as Apache module. It has the advantage of being loa
 \end{center}
 \end{figure}
 
-As you can see from the graphs, Apache with mod\_php is performing quite well, surpassing Nginx with PHP-FPM. However, when we look at the server resources usage, we can see that RAM and CPU usage is much higher in Apache than in Nginx with PHP-FPM.
+From both screenshots, we can observe that Apache HTTP, represented by the process /usr/sbin/apache2 is, at first, just warming up, spawning three child processes and under heavy load, consuming the CPU completely and taking about 770 megabytes of memory. It does not tell us much without comparing it to the results of benchmarking different server stacks, what we are going to do shortly. \\
 
-It is therefore better to use Nginx and PHP-FPM than Apache and mod\_php as your server web serving software. Nginx is not the bottleneck here, PHP-FPM is.
+Loader.io testing results page \cite{Loader.io:apache_mod_php} also shows us more statistics about the test:
 
-Has to switch to using TCP/IP to bypass server open file descriptors limitation which was slowing it down (sockets connection failed).
-
-Include successful response count (= how many requests can it actually handle).
+\begin{itemize}
+	\item\textbf{Average response time:} 1229 ms
+	\item\textbf{Min/Max response times:} 144 / 4660 ms
+	\item\textbf{Count of successful responses:} 2178
+\end{itemize}
 
 \section{Nginx with PHP-FPM}
 
@@ -74,6 +110,8 @@ To compare Apache with mod\_php and Nginx with PHP-FPM, they are similarly perfo
 \label{fig:nginx_php-fpm_22s}
 \end{center}
 \end{figure}
+
+Avid readers will notice that the RAM usage by MariaDB is higher than the total ram usage.
 
 \section{Nginx + HHVM}
 
