@@ -1958,4 +1958,46 @@
       </bcf:constraint>
     </bcf:constraints>
   </bcf:datamodel>
-  <!-- CIT
+  <!-- CITATION DATA -->
+  <!-- SECTION 0 -->
+  <bcf:bibdata section="0">
+    <bcf:datasource type="file" datatype="bibtex">bibliography.bib</bcf:datasource>
+  </bcf:bibdata>
+  <bcf:section number="0">
+    <bcf:citekey order="1">Lamosty:blog</bcf:citekey>
+    <bcf:citekey order="2">Study:Google</bcf:citekey>
+    <bcf:citekey order="3">Fig:Kissmetrics-page-abandonment</bcf:citekey>
+    <bcf:citekey order="4">Fig:Kissmetrics-page-abandonment</bcf:citekey>
+    <bcf:citekey order="5">Study:Google-site-speed-seo</bcf:citekey>
+    <bcf:citekey order="6">WP:main_site</bcf:citekey>
+    <bcf:citekey order="7">WP_usage</bcf:citekey>
+    <bcf:citekey order="8">WP:history</bcf:citekey>
+    <bcf:citekey order="9">Fig:PHP-opcode-caching</bcf:citekey>
+    <bcf:citekey order="10">Study:Mnot-caching</bcf:citekey>
+    <bcf:citekey order="11">Study:Browser-concurrent-downloads</bcf:citekey>
+    <bcf:citekey order="12">Service:Smushit</bcf:citekey>
+    <bcf:citekey order="13">Study:Google-compression</bcf:citekey>
+    <bcf:citekey order="14">Study:SO-gzip-browser-support</bcf:citekey>
+    <bcf:citekey order="15">Study:CSSwizardy-image-spriting</bcf:citekey>
+    <bcf:citekey order="16">Apache:Usage</bcf:citekey>
+    <bcf:citekey order="17">Nginx:c10k</bcf:citekey>
+    <bcf:citekey order="18">Study:Perf-Garron</bcf:citekey>
+    <bcf:citekey order="19">Study:Perf-WPEngine</bcf:citekey>
+    <bcf:citekey order="20">Study:Perf-XYU.io</bcf:citekey>
+    <bcf:citekey order="21">Study:Perf-XYU.io</bcf:citekey>
+    <bcf:citekey order="22">Hosting:vpsfree.cz</bcf:citekey>
+    <bcf:citekey order="23">Hosting:do.com</bcf:citekey>
+    <bcf:citekey order="24">Ansible:install</bcf:citekey>
+    <bcf:citekey order="25">Loader.io:main_site</bcf:citekey>
+    <bcf:citekey order="26">Apache:Wiki</bcf:citekey>
+    <bcf:citekey order="27">WP_Ansible:apache.conf</bcf:citekey>
+    <bcf:citekey order="28">Loader.io:apache_mod_php</bcf:citekey>
+    <bcf:citekey order="29">Htop:main_site</bcf:citekey>
+    <bcf:citekey order="30">Loader.io:apache_mod_php</bcf:citekey>
+    <bcf:citekey order="31">Nginx:Wiki</bcf:citekey>
+    <bcf:citekey order="32">Loader.io:nginx_php-fpm</bcf:citekey>
+    <bcf:citekey order="33">HHVM:Wiki</bcf:citekey>
+    <bcf:citekey order="34">Loader.io:nginx_hhvm</bcf:citekey>
+    <bcf:citekey order="35">Loader.io:nginx_hhvm</bcf:citekey>
+  </bcf:section>
+</bcf:controlfile>

@@ -50,7 +50,7 @@ On the screenshot, we can see a table of currently running processes. The column
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.5]{figures/htop_help_gauges.png}
+\includegraphics{figures/htop_help_gauges.png}
 \caption{Screenshot of Htop's help screen explaining the main gauges}
 \label{fig:htop_help_gauges}
 \end{center}
@@ -78,14 +78,21 @@ Loader.io testing results page \cite{Loader.io:apache_mod_php} also shows us mor
 
 \section{Nginx with PHP-FPM}
 
-Nginx has an event-based architecture. It means that when an request arrives, Nginx asynchronously listens for it. Then when it arrives, it is processed asynchronously. The main usage for Nginx is to quickly process many requests, relaying them to other applications if they need to be processed further. That's why we need to use PHP-FPM.
+"Nginx (pronounced "engine-x") is an open source [...] web server. The nginx project started with a strong focus on high concurrency, high performance and low memory usage. [...] Nginx uses an asynchronous event-driven approach to handling requests, instead of the Apache HTTP Server model that defaults to a threaded or process-oriented approach, where the Event MPM is required for asynchronous processing. Nginx's modular event-driven architecture can provide more predictable performance under high loads." \cite{Nginx:Wiki} \\
 
-PHP-FPM is a FastCGI server bound to a TCP port or socket. It listens for PHP requests, processing them and outputting the rendered content.
+Due to Nginx's asynchronous event-driven nature, its primary use case scenario is to relay the incoming requests to another application for processing, such as PHP-FPM, as quickly as possible, thus being able to handle large amounts of concurrent connections. \\
 
-When using Ningx with PHP, we have to detect if the request is for a PHP file. If it is, we need to redirect the request into the PHP-FPM server, waiting for the reply which is then outputted as a response.
+PHP-FPM is a FastCGI server bound to a TCP port or socket, bundled with the official PHP interpreter. It listens for PHP requests (request for a PHP script), responding with the resulting content (usually HTML). Comparing Apache's mod\_php with PHP-FPM, while a PHP request is processed by Apache directly, in case of Nginx, it has to be relayed to PHP-FPM, which is able to process it. We do not have to know how it works in a greater depth to understand that when a request is flowing through multiple applications, more server resources have to be consumed. On the other hand, as Nginx and PHP-FPM are specialized applications, they are more efficient when put together. It can be observed on the figures below.
 
+\subsection{Load testing Nginx with PHP-FPM}
 
-To compare Apache with mod\_php and Nginx with PHP-FPM, they are similarly performant. Apache + mod\_php can achieve better performance at the expense of wasting more resources as it has to spawn a large number of threads to process more requests. 
+Within your command line, navigate to the wordpress-ansible directory and run the "nginx\_php-fpm.yml" Ansible playbook:
+
+\begin{lstlisting}
+ansible-playbook -i hosts nginx_php-fpm.yml
+\end{lstlisting}
+
+Analogous to the load testing Apache with mod\_php, we create a new test on Loader.io with the same configuration. \cite{Loader.io:nginx_php-fpm}
 
 \begin{figure}[H]
 \begin{center}
@@ -94,6 +101,10 @@ To compare Apache with mod\_php and Nginx with PHP-FPM, they are similarly perfo
 \label{fig:nginx_php-fpm}
 \end{center}
 \end{figure}
+
+Figure \ref{fig:nginx_php-fpm} shows us similar average response times to the figure \ref{fig:apache_mod_php} (Apache with mod\_php), even slightly worse. However, screenshots of Htop during 1 and 22 seconds into the test depict a different situation. As we can see, even under 150 simultaneous client requests, server RAM usage is only at 46 MB. Compared with Apache's 770 MB, by installing Nginx with PHP-FPM we optimized the server markedly. We can also see that Nginx is not using more than 3\% of the server's CPU for the reason that it was programmed to manage thousands of concurrent connections and we sent only 200 of them. Better benchmark for Nginx performance is described in the \ref{page-caching} section. \\
+
+Although we could tweak Apache with mod\_php to have a better performance, it has a steep learning curve, requiring a considerable amount of time. The objective of this work is to provide web administrators and WordPress developers with solutions they can easily implement, therefore we will not elaborate on this topic in greater detail. 
 
 \begin{figure}[H]
 \begin{center}
@@ -111,15 +122,23 @@ To compare Apache with mod\_php and Nginx with PHP-FPM, they are similarly perfo
 \end{center}
 \end{figure}
 
-Avid readers will notice that the RAM usage by MariaDB is higher than the total ram usage.
+Astute readers might notice that MariaDB process (/usr/sbin/mysqld) consumes more memory (RES column) than Htop's Mem gauge total used memory is showing (46 MB) alone. As we have explained from the figure \ref{fig:htop_help_gauges}, memory bar is not counting the cached memory to its total used value. The only indication is the yellow bars which follow the green ones.
 
 \section{Nginx + HHVM}
 
-In the previous section, we have seen the performance of Nginx + PHP-FPM. Now, we will compare it with Nginx using HHVM for PHP processsing.
+In this section, we are going to substitute PHP-FPM with a different FastCGI PHP interpreter, HHVM and load-test it as we did with the earlier technologies. \\
 
-"HipHop Virtual Machine (HHVM) is a process virtual machine based on just-in-time (JIT) compilation, serving as an execution engine for PHP...". "By using the principle of JIT compilation, executed PHP or Hack code is first transformed into intermediate HipHop bytecode (HHBC), which is then dynamically translated into the x86-64 machine code, optimized and natively executed.[1][4] This contrasts to the PHP's usual interpreted execution, in which the Zend Engine transforms the PHP source code into opcodes as a form of intermediate code, and executes the opcodes directly on the Zend Engine's virtual CPU".
+"HipHop Virtual Machine (HHVM) is a process virtual machine based on just-in-time (JIT) compilation, serving as an execution engine for PHP. [...] By using the principle of JIT compilation, executed PHP [...] code is first transformed into intermediate HipHop bytecode (HHBC), which is then dynamically translated into the x86-64 machine code, optimized and natively executed. This contrasts to the PHP's usual interpreted execution, in which the Zend Engine transforms the PHP source code into opcodes as a form of intermediate code, and executes the opcodes directly on the Zend Engine's virtual CPU.". \cite{HHVM:Wiki} \\
 
-It is developed by Facebook with source code hosted on GitHub (open source).
+\subsection{Load testing Nginx with HHVM}
+
+Within your command line, navigate to the wordpress-ansible directory and run the "nginx\_hhvm.yml" Ansible playbook:
+
+\begin{lstlisting}
+ansible-playbook -i hosts nginx_hhvm.yml
+\end{lstlisting}
+
+Analogous to the load testing Apache with mod\_php, we create a new test on Loader.io with the same configuration. \cite{Loader.io:nginx_hhvm} As HHVM is transforming and optimizing the PHP code during the initial requests, we have made several ones before running the load testing to get more accurate results (response time for the initial request was more than 10 seconds long).
 
 \begin{figure}[H]
 \begin{center}
@@ -128,6 +147,8 @@ It is developed by Facebook with source code hosted on GitHub (open source).
 \label{fig:nginx_hhvm}
 \end{center}
 \end{figure}
+
+Reviewing the above chart, we can see that average response times have decreased from the 2-second to under 1-second levels. When 200 simultaneous requests are sent to the server, we receive them after 800 ms in average. This means that just by using HHVM instead of PHP-FPM, the performance of our server increases 2,5 times. What is more, the count of successful responses leaps to around 5800, thus nearly tripling the throughput of the server. \cite{Loader.io:nginx_hhvm}
 
 \begin{figure}[H]
 \begin{center}
@@ -145,6 +166,7 @@ It is developed by Facebook with source code hosted on GitHub (open source).
 \end{center}
 \end{figure}
 
-As we can see, HHVM has much better performance profile. It can handle more requests, with less RAM usage and CPU usage. The best combination as your web serving software. 
+Looking at the Htop process viewer screenshot, in comparison to using PHP-FPM, RAM usage more than tripled. However, it is still relatively low, especially compared to the memory usage when using Apache with mod\_php. \\
 
-Much higher throughput of successful requests.
+If this was a competition, choosing Nginx with HHVM as your web-serving stack would beat all its contestants, therefore we recommend going with it.
+
