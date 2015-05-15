@@ -170,3 +170,29 @@ Looking at the Htop process viewer screenshot, in comparison to using PHP-FPM, R
 
 If this was a competition, choosing Nginx with HHVM as your web-serving stack would beat all its contestants, therefore we recommend going with it.
 
+\subsection{Advanced WordPress and HHVM}
+
+Our standard test did not benchmark HHVM's full potential, as we could observe from the figure \ref{fig:nginx_hhvm}. We will make the WordPress-powered site more complex. The new installation will include:
+
+\begin{itemize}
+	\item several plugins, such as WooCommerce, Jetpack, WordPress SEO by Yoast and others \cite{WP_Ansible:group_vars}
+	\item a free e-commerce theme Storefront \cite{WP:Storefront}
+	\item WooCommerce dummy data
+	\item WP Test dummy data \cite{WP:WP_Test-dummy-data}
+\end{itemize}
+
+In order to have the advanced WordPress configured, run the "wordpress\_advanced.yml" playbook:
+
+\begin{lstlisting}
+ansible-playbook -i hosts wordpress_advanced.yml
+\end{lstlisting}
+
+We configured the Loader.io test to send requests to two different URL addresses, the root of the server and to "?product=woo-ninja-3" (a WooCommerce product page). \cite{Loader.io:nginx_hhvm_wp-advanced}. The results can be seen on the figure \ref{fig:nginx_hhvm_wp-advanced}. Average response times decreased from under 1-second to around 7-second levels, which is also reflected in the count of successful responses (1237 versus 5769). Installing complex WordPress plugins and themes has clearly a profound impact on the site's performance.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.5]{figures/Nginx_HHVM_WP-advanced.png}
+\caption{Nginx with HHVM and advanced WordPress: clients versus average response time}
+\label{fig:nginx_hhvm_wp-advanced}
+\end{center}
+\end{figure}

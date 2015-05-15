@@ -1999,5 +1999,9 @@
     <bcf:citekey order="33">HHVM:Wiki</bcf:citekey>
     <bcf:citekey order="34">Loader.io:nginx_hhvm</bcf:citekey>
     <bcf:citekey order="35">Loader.io:nginx_hhvm</bcf:citekey>
+    <bcf:citekey order="36">WP_Ansible:group_vars</bcf:citekey>
+    <bcf:citekey order="37">WP:Storefront</bcf:citekey>
+    <bcf:citekey order="38">WP:WP_Test-dummy-data</bcf:citekey>
+    <bcf:citekey order="39">Loader.io:nginx_hhvm_wp-advanced</bcf:citekey>
   </bcf:section>
 </bcf:controlfile>

@@ -383,6 +383,9 @@ INPUT ./figures/Nginx_HHVM_1s.png
 INPUT figures/Nginx_HHVM_24s.png
 INPUT ./figures/Nginx_HHVM_24s.png
 INPUT ./figures/Nginx_HHVM_24s.png
+INPUT figures/Nginx_HHVM_WP-advanced.png
+INPUT ./figures/Nginx_HHVM_WP-advanced.png
+INPUT ./figures/Nginx_HHVM_WP-advanced.png
 INPUT partials-tex/04-caching.tex
 INPUT figures/Nginx_FastCGI_caching.png
 INPUT ./figures/Nginx_FastCGI_caching.png
