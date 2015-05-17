@@ -2006,6 +2006,9 @@
     <bcf:citekey order="40">WP:Object-Cache-API</bcf:citekey>
     <bcf:citekey order="41">Wiki:in-memory-database</bcf:citekey>
     <bcf:citekey order="42">SO:Redis-vs-Memcached</bcf:citekey>
-    <bcf:citekey order="43">Loader.io:nginx_hhvm</bcf:citekey>
+    <bcf:citekey order="43">Loader.io:nginx_hhvm_redis</bcf:citekey>
+    <bcf:citekey order="44">Nginx:FastCGI-module</bcf:citekey>
+    <bcf:citekey order="45">Nginx:directives</bcf:citekey>
+    <bcf:citekey order="46">Loader.io:nginx_hhvm_fastcgi_caching</bcf:citekey>
   </bcf:section>
 </bcf:controlfile>

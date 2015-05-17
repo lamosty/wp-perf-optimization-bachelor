@@ -16,19 +16,19 @@ Analogous to how we benchmarked the web-serving software in the previous section
 
 \section{Page caching} \label{page-caching}
 
-To improve the performance even more, we can actually cache the result of the PHP processing of our site. We can save the resulting HTML file on a disk or to a RAM memory and when the next request arrives, just output the cached page. Full page caching can be done on several abstraction levels. The easiest one to set up is to have a WordPress plugin construct a static HTML cache of each requested web page on your site and store it as a flat file on your server disk drive. The problem with this approach is that there still has to be some kind of routing done on the PHP level as Nginx doesn't know which file to load on a request. Hard-drive cna also easily become a bottleneck if a lot of concurrent clients are loading the site, thus reading the file.
+Page caching is storing the output of a PHP interpreter (such as PHP-FPM or HHVM) on a disk or in RAM on the first request to a page (URL) and serving this stored (cached) content on subsequent ones. Page caching increses the performance of a web server considerably. To put it in simplistic terms, page caching converts a dynamic website into a static one. The most noticeable downside of page caching is that it is hard, if not impossible, to cache highly dynamic pages like constantly changing homepage or user profile page. In such circumstances, it is usually better to bypass the caching mechanisms and process the request with a PHP interpereter. \\
 
-Better solution is to have the page cache done on a lower level, the Nginx one. Nginx has a fastcgi cache module for exactly this purpose. We can configure Nginx to store the output from PHP processor into the RAM (tmpfs file system). When a new request comes, Nginx checks whether there already is a cached page or not. If it is, it will return it back to the user as a response. If it is not, it will forward the request to the PHP listening on the FastCGI server. When the resulting HTML file gets back to Nginx, it will store it in the page cache on the RAM for later usage.
+The easiest (but not the most performant) way to achieve page caching in WordPress-based site is to use a plugin such as W3 Total Cache or WP Super Cache. These plugins store a page on your server's disk as an HTML file. When the page is requested for the second time, the HTML file is sent back as a response without having to process it within WordPress, thus saving hundreds to thousands of milliseconds. The largest advantages of these plugins are their ease-of-use. They usually come with simple user interface and a mechanism to bypass the cache for logged in users and highly dynamic pages. It is also quite straightforward to purge the cache if a new piece of content has been added with most of the plugins doing it automatically. \\
 
-This process is rather fast, as Nginx is able to respond to thousands of concurrent requests, as seen from the chart below. Nginx uses a tree-like structure to store the data with hashing mechanisms, thus increasing the performance.
+However, we prefer to set up page caching at a lower level, directly in Nginx. Nginx FastCGI module \cite{Nginx:FastCGI-module} includes a caching mechanism. The advantages of this approach are that the content is stored in RAM (as opposed to a disk) and with the use of various Nginx directives \cite{Nginx:directives}, we get a fine-grained control over the caching process. What is more, there is a plugin called Nginx Helper, which is able to clear the cache when a new WordPress post or page is added. In our work, we have used Nginx's FastCGI cache to increase the server's web-serving performance. \\
 
-In order to revalidate and purge the old data, a Nginx location directive can be added. This directive can then be called from within WordPress to purge the cache if new content was added to our site. There is a handy plugin called Nginx Helper from rtcamp which automatically purges the cache on new post or page addition.
+We are going to benchmark the performance of our testing server with Nginx FastCGI caching enabled. Create a new Loader.io test with a duration of 15 seconds, maintaining client load from 300 to 1000 simultaneous clients to the root of our WordPress-powered site. \cite{Loader.io:nginx_hhvm_fastcgi_caching} To configure the FastCGI caching, within your command line, navigate to the wordpress-ansible directory and run the "nginx\_hhvm\_fastcgi\_cache.yml" Ansible playbook:
 
-Run nginx-page-cache.yaml playbook to have your VPS server fully configured with Nginx FastCGI page caching.
+\begin{lstlisting}
+ansible-playbook -i hosts nginx_hhvm_fastcgi_cache.yml
+\end{lstlisting}
 
-The downsides of page caching are that if a cached page is updated – just a small part of it — you need to purge it from the cache and re-load it. If a person is logged in WordPress, it's not possible to cache most pages because they are customized for the particular user. Solutions such as CacheBuddy are specially made for this purpose.
-
-Better than W3 Total Cache page caching because it goes directly into RAM, can skip caching if cookie is present or specific location, relying on nginx caching mechanisms, fast, can be purged automatically on new post/page, etc.
+The resulting clients versus average response time chart can be observed on the figure \ref{fig:nginx_fastcgi_caching}. Note that we did a manual request (non-cached one) before starting the test for Nginx to cache it.
 
 \begin{figure}[H]
 \begin{center}
@@ -38,6 +38,8 @@ Better than W3 Total Cache page caching because it goes directly into RAM, can s
 \end{center}
 \end{figure}
 
+With our three CPU testing server, we were able to serve 1000 concurrent requests while maintaining the average response time under 2000 ms. Compare it with the previous testing \ref{advanced-wordpress-hhvm}, where we barely served 200 concurrent requests under 8000 ms average response time. Another interesting statistic is the output of Htop process viewer, which can be observed on the figure below.
+
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.5]{figures/Nginx_FastCGI_caching_9s.png}
@@ -45,6 +47,8 @@ Better than W3 Total Cache page caching because it goes directly into RAM, can s
 \label{fig:nginx_fastcgi_caching}
 \end{center}
 \end{figure}
+
+9 seconds into the benchmarking (around 750 simultaneous requests), the server's CPU usage is at less than one-quarter. The single cached page is not taking large amounts of memory, as can be seen in RAM usage (72 MB out of 4096). We can confidently conclude this section by saying that, as was stated before, Nginx is an efficient web-serving software.
 
 \section{Browser caching}
 
