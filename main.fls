@@ -393,7 +393,6 @@ INPUT ./figures/Nginx_FastCGI_caching.png
 INPUT figures/Nginx_FastCGI_caching_9s.png
 INPUT ./figures/Nginx_FastCGI_caching_9s.png
 INPUT ./figures/Nginx_FastCGI_caching_9s.png
-INPUT partials-tex/05-client-side-optimizations.tex
 INPUT partials-tex/06-source-code-optimizations.tex
 INPUT partials-tex/07-concluding-remarks.tex
 INPUT partials-tex/08-future-work.tex

@@ -1,30 +1,18 @@
 \section{Database caching}
 
-WordPress-powered sites are doing quite a lot of queries into the database on each load. If an user installs plugins and uses a more complex theme, querying the database starts to become a bottleneck. It can take up to 200-300 milliseconds from each page load. When there is a high traffic coming to a site, database stops being able to process all the queries and PHP processing halts (queries are synchronized).
+WordPress was programmed with the support of database caching in mind. Core functions and methods querying the database (such as get\_option, get\_posts and others) use WordPress Object Cache API \cite{WP:Object-Cache-API} on the background. \\
 
-A solution to this problem is to store (cache) the results of the database queries so when the same query is run again, the stored data, instead of querying the database, is returned.
+The default Object Cache API caches the database queries and results in a PHP array, thus only for a duration of the script execution (one request). On one hand, this mechanism is useful in templates, where the same information about the site is retrieved multiple times (for example get\_bloginfo function). On the other hand, when many users visiting our site request the same page, the same database queries have to be made unnecessarily multiple times. \\
 
-WordPress comes with a object cache API in its Core. All Core functions and methods querying the database (such as get\_option, get\_posts, etc) use this object cache API. However, as WordPress supports wide range of hosts and server versions, this API caches the data only during the request procesing. That means that when the data are queried for the first time, they get stored in a PHP array. Next time they are retrieved (during the same request processing) from that array.
+If we need to store the database cache persistently, we can use an in-memory database. "An in-memory database is a database management system that primarily relies on main memory for computer data storage. It is contrasted with database management systems that employ a disk storage mechanism. Main memory databases are faster than disk-optimized databases since the internal optimization algorithms are simpler and execute fewer CPU instructions. Accessing data in memory eliminates seek time when querying the data, which provides faster and more predictable performance than disk." \cite{Wiki:in-memory-database}\\
 
-Fortunately, native WordPress object caching API can be swapped for more robust caching mechanisms. It is done by writing an object-cache.php file, putting it into the wp-content directory. If WordPress detects this file, it will use the functions defined from it instead of loading its own object cache API code.
+The two most popular in-memory databases in the WordPress ecosystem are Memcached and Redis. In our work we have chosen to work with Redis as it is modern, well-supported and having all the features of Memcached. \cite{SO:Redis-vs-Memcached} In order for WordPress Object Cache API to use Redis for database caching, we need to install Redis server and Redis PHP connector (driver). We have prepared an Ansible playbook which downloads a PHP driver for Redis and installs it into the currently installed WordPress site (whether basic or advanced). Within your command line, navigate to the wordpress-ansible directory and run the "wordpress\_redis\_db\_cache.yml" Ansible playbook:
 
-There are two main caching mechanisms: WordPress Transient API and in-memory caching.
+\begin{lstlisting}
+ansible-playbook -i hosts wordpress\_redis\_db\_cache.yml
+\end{lstlisting}
 
-WordPress Transient API works by storing the cached data back into the database as a serialized PHP array. Instead of having to perform a complex database query, the data is simply retrieved from the database and unserialized back into a PHP array. The downside of this approach is that the server database (MySQL for example) is still used to store data, so it's still queried, data inserted and then deleted. This slows down the server and might even hurt the performance in case of a large number of tiny data stored in the database.
-
-Another approach — in-memory caching — is the most optimal one. In this approach, data is saved into the server's RAM memory and loaded to the PHP process back from it. This is the fastest way of caching database data and queries as RAM is the fastest type of memory in your server. The downside is that it uses additional megabytes of RAM. Fortunately, the numbers are somewhere between tens of megabytes, which, in todays' world, is not that much. On the other hand, this approach saves the trip to the database completely, eliminating the 200-300ms and increasing the performance of your site enormously.
-
-The two most popular in-memory storage applications are memcached and redis. To compare memcached with redis, redis is the newer, more performant and optimized one. That's why we'll be using Redis in our work.
-
-Redis is a simple key-value in-memory storage mechanism. It has an API to operate with the data. To work with Redis from PHP, you need a module. Then, it is enough to simply copy-paste a pre-made PHP Redis api for WordPress and put it into your wp-content directory.
-
-Using Ansible automation, the author of the work has prepared a role, named Redis, to install and configure WordPress and your server to use it. Simply run wp-redis.yml playbook from your command line and your server will be Redis-ready.
-
-To test the performance, we are going to use the loader.io.
-
-From the above graph, we can see that the response time has decreased dramatically initially. However, as more simultaneous requests are made to the WordPress-based testing site, we can see that the performance is worsening. That's because database caching solves only a part of the problem.
-
-Similar results to that of without using Redis for database caching, however. Might be caused because HHVM does some kind of object caching on its own. On the other hand, loading page from user's browser seems much faster, especially many different subpages of a site. HHVM has to cache all of that subpages before it starts to be fast again. Database is not bottleneck, too few requests for it to be. CPU is bottleneck. If you had multiple servers, many users, having a single in-memory database such as Redis would be beneficial.
+Analogous to how we benchmarked the web-serving software in the previous section, we configured a Loader.io test and performed several load tests for the site with Redis database caching enabled. Suprisingly, resulting charts did not show any noticeable improvements \cite{Loader.io:nginx_hhvm_redis} over the other tests. Contemplating over this issue, we think that the database on our testing server is not a bottleneck. However, as this has not been proved yet, it might be a subject of a future work.
 
 \section{Page caching} \label{page-caching}
 

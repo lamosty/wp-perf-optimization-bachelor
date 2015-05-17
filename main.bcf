@@ -2003,5 +2003,9 @@
     <bcf:citekey order="37">WP:Storefront</bcf:citekey>
     <bcf:citekey order="38">WP:WP_Test-dummy-data</bcf:citekey>
     <bcf:citekey order="39">Loader.io:nginx_hhvm_wp-advanced</bcf:citekey>
+    <bcf:citekey order="40">WP:Object-Cache-API</bcf:citekey>
+    <bcf:citekey order="41">Wiki:in-memory-database</bcf:citekey>
+    <bcf:citekey order="42">SO:Redis-vs-Memcached</bcf:citekey>
+    <bcf:citekey order="43">Loader.io:nginx_hhvm</bcf:citekey>
   </bcf:section>
 </bcf:controlfile>
