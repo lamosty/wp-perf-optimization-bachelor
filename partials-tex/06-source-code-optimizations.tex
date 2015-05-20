@@ -1,20 +1,37 @@
-\section{WordPress architecture in brief}
+Since we have compared different kinds of server stacks in the third chapter and discussed the usage of caching in the fourth one, we will now look into optimizing the performance of source code of a WordPress-based website. The first step is to detect the underperforming parts of the site (profiling). Then, we can begin to optimize them by employing various techniques and following best practices.
+
+\section{Profiling source code with XHProf}
+
+"In software engineering, profiling is a form of dynamic program analysis that measures, for example, the space (memory) or time complexity of a program, the usage of particular instructions, or the frequency and duration of function calls. Most commonly, profiling information serves to aid program optimization. Profiling is achieved by instrumenting either the program source code or its binary executable form using a tool called a profiler." \cite{Wiki:Profiling} \\
+
+"XHProf is a hierarchical profiler for PHP. It reports function-level call counts and inclusive and exclusive metrics such as wall (elapsed) time, CPU time and memory usage. A function's profile can be broken down by callers or callees. The raw data collection component is implemented in C as a PHP Zend extension called xhprof. XHProf has a simple HTML based user interface (written in PHP). The browser based UI for viewing profiler results makes it easy to view results or to share results with peers. A callgraph image view is also supported." \cite{XHProf:About} \\
+
+After installing the XHProf PHP extension and a GUI \cite{Lamosty.com:XHProf}, we can easily identify the most CPU and memory hungry functions in plugins and themes. Then, we might either remove or begin to optimize them. Although there exist several WordPress profiling plugins such as Query Monitor or P3, they are not as exact and verbose as XHProf.
+
+\section{Source code optimization techniques and best practices}
+
+\subsection{Autoloading PHP Classes}
+
+"Many developers writing object-oriented applications create one PHP source file per class definition. One of the biggest annoyances is having to write a long list of needed includes at the beginning of each script (one for each class)." \cite{PHP:Autoloading} Some programmers who are indifferent to the performance of their source code solve this problem by including all of the classes in one general file. The problem with this approach is that the classes which are not needed for a current code execution (for example requests to administration panel do not require classes used on the front-side of the website) are unnecessarily included every time a request is made, thus consuming more memory and CPU. \\
+
+A proper solution is to make use of PHP's autoloading features. "You may define [...] a function which is automatically called in case you are trying to use a class/interface which hasn't been defined yet. By calling this function the scripting engine is given a last chance to load the class before PHP fails with an error." \cite{PHP:Autoloading}
+
+\subsection{Time complexity of PHP functions}
+
+"In computer science, the time complexity of an algorithm quantifies the amount of time taken by an algorithm to run as a function of the length of the string representing the input. The time complexity of an algorithm is commonly expressed using big O notation, which excludes coefficients and lower order terms. [...] Time complexity is commonly estimated by counting the number of elementary operations performed by the algorithm, where an elementary operation takes a fixed amount of time to perform. Thus the amount of time taken and the number of elementary operations performed by the algorithm differ by at most a constant factor." \cite{Wiki:Time-complexity} \\
+
+Using more efficient algorithms in plugins and themes, we might save tens to hundreds of milliseconds in our WordPress-based website execution time. Therefore, it is beneficial to have a basic knowledge of algorithms time complexity, especially the big O numbers of native PHP functions. \cite{SO:PHP-functions-big-O}
+
+\subsection{WordPress Plugin API}
+
+\subsection{WordPress database queries}
+
+\subsection{Using AJAX in plugins and themes}
 
 WordPress is based on event-driven architecture, observer pattern. There are filters and action on which functions can be hooked during the execution time. This way, WordPress core, themes and plugins as well can be altered in their behavior.
 
 To get the most performance of WordPress, we need to utilize the most suitable hooks for the function. For example, if I want to perform an operation on a custom post type when saving it (transitional state), I could hook to a post transitional generic function hook. On the other hand, I can hook into a specific action executed only for the specific post type, thus saving resources and time.
 
-\section{Profiling web application with xhprof}
-
-Xhprof is a PHP-based web application used for profiling your codebase. On each request, xhprof analyzes the callstacks, functions and computes all the time and memory it takes to execute a function.
-
-<picture>
-
-<features>
-
-<how to install/use>
-
-\section{Using AJAX in plugins and themes}
 
 Another useful technique for increasing the performance of your WordPress-powered web app is to let the client perform some computations. We can output a page and compute additional data through ajax dynamically, thus the site will appear faster to the end user. We can also offload some computations to the client-side, such as getting external data, etc.
 

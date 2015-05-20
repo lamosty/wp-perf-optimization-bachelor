@@ -2012,5 +2012,12 @@
     <bcf:citekey order="46">Loader.io:nginx_hhvm_fastcgi_caching</bcf:citekey>
     <bcf:citekey order="47">Nginx:server_block</bcf:citekey>
     <bcf:citekey order="48">Wiki:Query-string</bcf:citekey>
+    <bcf:citekey order="49">Wiki:Profiling</bcf:citekey>
+    <bcf:citekey order="50">XHProf:About</bcf:citekey>
+    <bcf:citekey order="51">Lamosty.com:XHProf</bcf:citekey>
+    <bcf:citekey order="52">PHP:Autoloading</bcf:citekey>
+    <bcf:citekey order="53">PHP:Autoloading</bcf:citekey>
+    <bcf:citekey order="54">Wiki:Time-complexity</bcf:citekey>
+    <bcf:citekey order="55">SO:PHP-functions-big-O</bcf:citekey>
   </bcf:section>
 </bcf:controlfile>
