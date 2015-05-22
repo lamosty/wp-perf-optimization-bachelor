@@ -1,6 +1,9 @@
 \section{Load balancing}
 
-Nginx has a useful module called upstream. It can be used to load-balance servers, redirecting traffic to different VPS servers when needed.
+Load balancing is a method of distributing computations across multiple servers, thus optimizing server use, maximizing throughput, minimizing response time and avoiding overload of a single server. Nginx's module called upstream \cite{Nginx:Upstream} is used to define groups of servers that can be referenced in server blocks of different sites. 
 
-\section{Better plugin and theme architecture}
+\section{Perception of speed}
+
+Apart from optimizing the web server software and hardware efficiency, it is important to design a web application in a way that it will be perceived as fast and responsive by its visitors. One method of doing so is to use asynchronous JavaScript (Ajax) techniques to load additional data from a server after a site has been loaded by a user while providing visual guides of the to-be loaded data on the site. 
+
 

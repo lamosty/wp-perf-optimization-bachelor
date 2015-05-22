@@ -24,15 +24,26 @@ Using more efficient algorithms in plugins and themes, we might save tens to hun
 
 \subsection{WordPress Plugin API}
 
-\subsection{WordPress database queries}
+Plugin API, employed throughout the whole WordPress, makes it one of the most extensible PHP-based CMS. It is based on event-driven architecture (Observer design pattern), comprising hooks, actions and filters. "Hooks are provided by WordPress to allow your plugin to 'hook into' the rest of WordPress; that is, to call functions in your plugin at specific times, and thereby set your plugin in motion." \cite{WP:Plugin-API} Actions and filters are two kinds of hooks. \\
 
-\subsection{Using AJAX in plugins and themes}
+"\textbf{Actions} are triggered by specific events that take place in WordPress, such as publishing a post, changing themes, or displaying administration screen. An Action is a custom PHP function defined in your plugin (or theme) and hooked, i.e. set to respond, to some of these events." \\
 
-WordPress is based on event-driven architecture, observer pattern. There are filters and action on which functions can be hooked during the execution time. This way, WordPress core, themes and plugins as well can be altered in their behavior.
+"\textbf{Filters} are functions that WordPress passes data through, at certain points in execution, just before taking some action with the data (such as adding it to the database or sending it to the browser screen). Filters sit between the database and the browser (when WordPress is generating pages), and between the browser and the database (when WordPress is adding new posts and comments to the database); most input and output in WordPress passes through at least one filter. WordPress does some filtering by default, and your plugin can add its own filtering." \\
 
-To get the most performance of WordPress, we need to utilize the most suitable hooks for the function. For example, if I want to perform an operation on a custom post type when saving it (transitional state), I could hook to a post transitional generic function hook. On the other hand, I can hook into a specific action executed only for the specific post type, thus saving resources and time.
+The performance optimizations of our website is based on utilizing proper action and filter hooks for our functions. To give you an example, when a plugin or a theme is activated (or deactivated), special action hooks are triggered. We should use them to initialize a plugin or a theme (e.g. create new user role, add rewrite rules — operations inserting data into database) instead of running these operations on each website execution (each request).
 
+\subsection{WordPress database queries and structure}
 
-Another useful technique for increasing the performance of your WordPress-powered web app is to let the client perform some computations. We can output a page and compute additional data through ajax dynamically, thus the site will appear faster to the end user. We can also offload some computations to the client-side, such as getting external data, etc.
+The database structure of a WordPress-based site is rather flexible, being able to accommodate various kinds of data. The "posts" table holds records of pages, posts and custom post types. \cite{WP:Post-Types} Table "postmeta" can store additional information (metadata) for particular entries from the "posts" table. "term\_taxonomy" table is used for data classification (categorization), holding terms from different taxonomies. \cite{WP:Taxonomies} \\
 
+When adding data to posts, we can both add them as "postmeta" to a particular post, or create a new taxonomy with terms for the post. If we need to query the database by these additional data, it is better to add them as taxonomy with terms to obtain a greater querying performance. On the other hand, if the data are unique to a specific post and we do not generally need to query the database by it, it is better to add them as post's "postmeta" to save database disk space usage. \cite{Otto:Taxonomy-vs-Postmeta} \\
 
+As far as querying data from a WordPress database is concerned, there are several principles we should follow to increase its performance: \cite{10up:Database-Performance}
+
+\begin{itemize}
+	\item Use WP\_Query class for database queries.
+	\item Only run the queries that you need.
+	\item Do not query all the posts at once — paginate them instead.
+\end{itemize}
+
+If working with specific data which do not fit into default WordPress tables (worse performance or logical reasons), it is better to create a custom table. In that case, we should use the method "prepare" of the "wpdb" class, automatically instantiated as "\$wpdb" global variable.

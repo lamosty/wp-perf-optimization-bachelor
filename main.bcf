@@ -2019,5 +2019,11 @@
     <bcf:citekey order="53">PHP:Autoloading</bcf:citekey>
     <bcf:citekey order="54">Wiki:Time-complexity</bcf:citekey>
     <bcf:citekey order="55">SO:PHP-functions-big-O</bcf:citekey>
+    <bcf:citekey order="56">WP:Plugin-API</bcf:citekey>
+    <bcf:citekey order="57">WP:Post-Types</bcf:citekey>
+    <bcf:citekey order="58">WP:Taxonomies</bcf:citekey>
+    <bcf:citekey order="59">Otto:Taxonomy-vs-Postmeta</bcf:citekey>
+    <bcf:citekey order="60">10up:Database-Performance</bcf:citekey>
+    <bcf:citekey order="61">Nginx:Upstream</bcf:citekey>
   </bcf:section>
 </bcf:controlfile>
