@@ -20,7 +20,7 @@ A proper solution is to make use of PHP's autoloading features. "You may define 
 
 "In computer science, the time complexity of an algorithm quantifies the amount of time taken by an algorithm to run as a function of the length of the string representing the input. The time complexity of an algorithm is commonly expressed using big O notation, which excludes coefficients and lower order terms. [...] Time complexity is commonly estimated by counting the number of elementary operations performed by the algorithm, where an elementary operation takes a fixed amount of time to perform. Thus the amount of time taken and the number of elementary operations performed by the algorithm differ by at most a constant factor." \cite{Wiki:Time-complexity} \\
 
-Using more efficient algorithms in plugins and themes, we might save tens to hundreds of milliseconds in our WordPress-based website execution time. Therefore, it is beneficial to have a basic knowledge of algorithms time complexity, especially the big O numbers of native PHP functions. \cite{SO:PHP-functions-big-O}
+Using more efficient algorithms in plugins and themes, we might save tens to hundreds of milliseconds in our WordPress-based website execution time. Therefore, it is beneficial to have a basic knowledge of algorithms time complexity, especially the big O of native PHP functions. \cite{SO:PHP-functions-big-O}
 
 \subsection{WordPress Plugin API}
 
@@ -30,7 +30,7 @@ Plugin API, employed throughout the whole WordPress, makes it one of the most ex
 
 "\textbf{Filters} are functions that WordPress passes data through, at certain points in execution, just before taking some action with the data (such as adding it to the database or sending it to the browser screen). Filters sit between the database and the browser (when WordPress is generating pages), and between the browser and the database (when WordPress is adding new posts and comments to the database); most input and output in WordPress passes through at least one filter. WordPress does some filtering by default, and your plugin can add its own filtering." \\
 
-The performance optimizations of our website is based on utilizing proper action and filter hooks for our functions. To give you an example, when a plugin or a theme is activated (or deactivated), special action hooks are triggered. We should use them to initialize a plugin or a theme (e.g. create new user role, add rewrite rules — operations inserting data into database) instead of running these operations on each website execution (each request).
+The performance optimizations of our website are based on utilizing proper action and filter hooks for our functions. To give you an example, when a plugin or a theme is activated (or deactivated), special action hooks are triggered. We should use them to initialize a plugin or a theme (e.g. create new user role, add rewrite rules — operations inserting data into database) instead of running these operations on each website execution (each request).
 
 \subsection{WordPress database queries and structure}
 
@@ -46,4 +46,4 @@ As far as querying data from a WordPress database is concerned, there are severa
 	\item Do not query all the posts at once — paginate them instead.
 \end{itemize}
 
-If working with specific data which do not fit into default WordPress tables (worse performance or logical reasons), it is better to create a custom table. In that case, we should use the method "prepare" of the "wpdb" class, automatically instantiated as "\$wpdb" global variable.
+When working with specific data which do not fit into default WordPress tables (having worse performance or for logical reasons), it is better to create a custom table. In that case, we should use the method "prepare" of the "wpdb" class, automatically instantiated as "\$wpdb" global variable to query these tables, as this method sanitizes user input, preventing SQL injection and other kinds of attacks.
