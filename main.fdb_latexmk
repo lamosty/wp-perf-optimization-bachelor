@@ -1,14 +1,14 @@
 # Fdb version 3
-["biber main"] 1432376111 "main.bcf" "main.bbl" "main" 1432376128
+["biber main"] 1432385255 "main.bcf" "main.bbl" "main" 1432385271
   "bibliography.bib" 1432376090 11866 f3a7e8cb2c03228415c5e56f805b3483 ""
-  "main.bcf" 1432376127 95355 2a2a52559cb51aa1cdb287599d06fbc2 ""
+  "main.bcf" 1432385271 95355 2a2a52559cb51aa1cdb287599d06fbc2 ""
   (generated)
   "main.bbl"
-["cusdep glo gls main"] 1432376120 "main.glo" "main.gls" "main" 1432376128
-  "main.glo" 1432376127 89 78afb867093925d56ab78fe08868ba96 ""
+["cusdep glo gls main"] 1432385264 "main.glo" "main.gls" "main" 1432385271
+  "main.glo" 1432385271 89 d4ce9684a94229be15a9af7d964dc62c ""
   (generated)
   "main.gls"
-["pdflatex"] 1432376121 "main.tex" "main.pdf" "main" 1432376128
+["pdflatex"] 1432385264 "main.tex" "main.pdf" "main" 1432385271
   "./figures/Apache_mod_php.png" 1430641956 37217 f4613c1afc63cf20a856a58fec6e99fc ""
   "./figures/Apache_mod_php_25s.png" 1430641815 275327 1a553c53a2d807c0c71afee6c65857ec ""
   "./figures/Apache_mod_php_2s.png" 1430641542 245833 2e82e02d7739dafeec39ea32ad3461d4 ""
@@ -28,7 +28,7 @@
   "./figures/page-abandonment-chart.png" 1423485179 202110 f649d1c76fdd020b279fd872336a602b ""
   "./figures/php-opcode-caching.png" 1423506170 35191 1c765b98fb35906ee88109c0d8197497 ""
   "./figures/wpengine-hhvm-php-wordpress.png" 1423565700 477895 eae39e8980fc7ccb94ed5b61b7248ceb ""
-  "./main.out" 1432376127 3555 6c92fe7690d16f7f29a53d9af54c0022 ""
+  "./main.out" 1432385271 3603 426963be6b9864c0d36fe3e3f795ed5d ""
   "/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2014/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/tfm/adobe/courier/pcrb7t.tfm" 1136768653 960 4ab65358b8406f30ef5496c8c096d22b ""
@@ -213,16 +213,15 @@
   "fmph.bbx" 1423469612 15539 01268c591695b77dc4d06dd1be354d84 ""
   "fmph.cbx" 1305543366 103 19168cbcebe62bf2fdee22d431aeb7e3 ""
   "glossary.tex" 1431966018 295 9a9a87731433655a38eb51f56a0d427d ""
-  "main.aux" 1432376127 19840 79c3d10b125ebd28f75fff680de81aad ""
-  "main.bbl" 1432376113 46454 f43ed01ab1f2473e67a1b95b635f3e8d "biber main"
-  "main.gls" 1432376121 288 ca8b47f11a2c8b86f9df3c5105420217 "cusdep glo gls main"
+  "main.aux" 1432385271 19963 fe1e35621da1b81e0486e3a01025829d ""
+  "main.bbl" 1432385257 46454 f43ed01ab1f2473e67a1b95b635f3e8d "biber main"
+  "main.gls" 1432385264 288 4947e972d687a791887ca0483045ed00 "cusdep glo gls main"
   "main.glsdefs" 1423507570 445 cb2ae935a322f96eeeb2fe37cc6db8a7 ""
-  "main.lof" 1432376127 4000 5e65c521e11f18419e63a9ba55ea2113 ""
-  "main.lot" 1432376127 736 404ad7f17dfaba253e7d5aca49e16dc2 ""
-  "main.out" 1432376127 3555 6c92fe7690d16f7f29a53d9af54c0022 ""
-  "main.run.xml" 1432376127 2438 4e19720a713db4162ca93ef39a8bda90 ""
-  "main.tex" 1432308222 3055 86df9ea6a9e70aaaebc1579b9ca0d57a ""
-  "main.toc" 1432376127 6142 f1aa0a517c56131130b3fee2eb2e3014 ""
+  "main.lof" 1432385271 4000 afeaf4c9ca9bf21da1809c835fa7c9ab ""
+  "main.out" 1432385271 3603 426963be6b9864c0d36fe3e3f795ed5d ""
+  "main.run.xml" 1432385271 2438 4e19720a713db4162ca93ef39a8bda90 ""
+  "main.tex" 1432385244 3137 c140f066990deb49c7355c609a1fee39 ""
+  "main.toc" 1432385271 6230 00c4206863c62c352943ef9705a49d9e ""
   "partials-tex/01-introduction.tex" 1432372414 19809 312371dcdb5cc90bbf5a6bbb1d1f6c7f ""
   "partials-tex/02-configuring-testing-env.tex" 1432372660 5144 975fd99abcf0dade25e951955e8b4466 ""
   "partials-tex/03-bench-server-software.tex" 1431704644 14030 bf99c7c2314b4a30e02df50dba0bba45 ""
@@ -233,14 +232,13 @@
   "partials-tex/abstract.tex" 1423466561 1630 5c8093aa967df447143c19d0325e1383 ""
   "partials-tex/firstpages.tex" 1423466313 1505 3c1d975329b4b504220afdda294ad989 ""
   (generated)
-  "main.aux"
+  "main.glo"
   "main.ist"
-  "main.bcf"
+  "main.aux"
   "main.lof"
+  "main.toc"
+  "main.bcf"
+  "main.run.xml"
   "main.log"
   "main.out"
-  "main.run.xml"
-  "main.glo"
-  "main.toc"
   "main.pdf"
-  "main.lot"

@@ -32,6 +32,8 @@
 \def\nazov{Performance and Speed Optimizations of WordPress-Based Web Application and its Underlying Server Stack}
 \def\autor{Rastislav Lamoš}
 
+\AtBeginDocument{\renewcommand{\bibname}{References}}
+
 
 \usepackage[pdftex,bookmarks=true]{hyperref}
 \hypersetup{
@@ -87,7 +89,6 @@ keywordstyle=\color{black}\bfseries
 
 \tableofcontents
 \listoffigures
-\listoftables
 
 \newpage
 
@@ -114,8 +115,7 @@ keywordstyle=\color{black}\bfseries
 \input partials-tex/08-future-work.tex
 
 \printbibliography
-
-
+\addcontentsline{toc}{chapter}{References}
 
 \label{totalpages}
 

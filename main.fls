@@ -318,9 +318,6 @@ OUTPUT main.toc
 INPUT main.lof
 INPUT main.lof
 OUTPUT main.lof
-INPUT main.lot
-INPUT main.lot
-OUTPUT main.lot
 INPUT partials-tex/01-introduction.tex
 INPUT figures/page-abandonment-chart.png
 INPUT ./figures/page-abandonment-chart.png
