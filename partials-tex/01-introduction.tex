@@ -4,13 +4,13 @@ Our work is divided into three main parts.  \\
 
 Firstly, we delve into the problematics, describing what is WordPress and why its performance matters. We present past experiments and their results, pointing out their achievements as well as their deficiencies. We also specify and describe all the necessary tools, software and skills needed to understand and be able to reproduce the work in this part. \\
 
-Secondly, we present our solutions to the problem(s) with thorough explanations. The author of the work keeps a technical blog \cite{Lamosty:blog} where a step by step guide to achieve the results shown in this document is located. We comment and describe only the most important sections of the guide in this document. \\
+Secondly, we present our solutions to the problem(s) with thorough explanations. The author of the work keeps a technical blog \cite{Lamosty.com:Blog} where a step by step guide to achieve the results shown in this document is located. We comment and describe only the most important sections of the guide in this document. \\
 
 Lastly, we recapitulate and select the most efficient and optimized configurations for both server software and WordPress. A command line application (script), which installs all the required software and configures it is also included.
 
 \section{Problem Definition}
 
-Website loading and rendering speed has a critical impact on page abandonment rate among its visitors. According to a Google experiment, web page loading time increased only by \textbf{half of a second}, had a 20\% drop in its visitor’s traffic \cite{Study:Google}. On figure \ref{fig:kissmetrics-page-abandonment} \cite{Fig:Kissmetrics-page-abandonment}, we can see a chart of page abandonment relative to a web page loading time in seconds. By the time a ten-seconds loading web page is finished rendering to the users, more than 35\% of them will close the page, never seeing what is on it.
+Website loading and rendering speed has a critical impact on page abandonment rate among its visitors. According to a Google experiment, web page loading time increased only by \textbf{half of a second}, had a 20\% drop in its visitor’s traffic \cite{KISSmetrics:Speed-Google}. On figure \ref{fig:kissmetrics-page-abandonment} \cite{Fig:Kissmetrics-page-abandonment}, we can see a chart of page abandonment relative to a web page loading time in seconds. By the time a ten-seconds loading web page is finished rendering to the users, more than 35\% of them will close the page, never seeing what is on it.
 
 \begin{figure}[H]
 \begin{center}
@@ -30,15 +30,15 @@ If we want to highlight the seriousness of this issue, imagine a situation in wh
 \end{center}
 \end{figure}
 
-What is more, Google incorporated site speed in search rankings in 2010 \cite{Study:Google-site-speed-seo}, meaning that the slower a website loading is, the lower rank in Google search results it will receive. The author of this work believes he has shown the reader enough evidence that optimizing the performance and speed of a website is crucial for its success, especially in today's fast-paced world.
+What is more, Google incorporated site speed in search rankings in 2010 \cite{MattCutts:Google-site-speed-seo}, meaning that the slower a website loading is, the lower rank in Google search results it will receive. The author of this work believes he has shown the reader enough evidence that optimizing the performance and speed of a website is crucial for its success, especially in today's fast-paced world.
 
 \section{About WordPress}
 
 \subsection{General Introduction}
 
-To cite WordPress.org, "WordPress is web software you can use to create a beautiful website or blog."\cite{WP:main_site} Simply put, WordPress is a very powerful, open source web publishing software, content management system and a web platform for building rich web applications. People and companies are using WordPress for various purposes and reasons, most notably for their blogs, websites, e-commerce solutions and large portals. At the time of writing (January 2015), it is estimated that about 23\% \cite{WP_usage} of all websites, whose content management system is known, is being run on WordPress. This number is quite astonishing because it means that visiting five random websites, one of them will be a WordPress-powered one. \\
+To cite WordPress.org, "WordPress is web software you can use to create a beautiful website or blog."\cite{WP:WP.org} Simply put, WordPress is a very powerful, open source web publishing software, content management system and a web platform for building rich web applications. People and companies are using WordPress for various purposes and reasons, most notably for their blogs, websites, e-commerce solutions and large portals. At the time of writing, it is estimated that about 24\% \cite{W3Techs:WP-usage} of all websites, whose content management system is known, is being run on WordPress. This number is quite astonishing because it means that visiting five random websites, one of them will be a WordPress-powered one. \\
 
-WordPress, in comparison to other web softwares and frameworks, is a full-featured, stand alone web publishing software and content management system. At its core, it consists of a request-response routing subsystem, classes for managing database and content handling, security features and others. WordPress was initially started as an open source hobby project of Matt Mullenweg in 2003 \cite{WP:history}. Since then, web programmers from all around the world have contributed to it, making it robust, secure and fast. However, as there are several bottlenecks in the system, the author of this work, himself a web developer, decided to analyze and improve them. His findings and results are summarized in this thesis.
+WordPress, in comparison to other web softwares and frameworks, is a full-featured, stand alone web publishing software and content management system. At its core, it consists of a request-response routing subsystem, classes for managing database and content handling, security features and others. WordPress was initially started as an open source hobby project of Matt Mullenweg in 2003 \cite{WP:History}. Since then, web programmers from all around the world have contributed to it, making it robust, secure and fast. However, as there are several bottlenecks in the system, the author of this work, himself a web developer, decided to analyze and improve them. His findings and results are summarized in this thesis.
 
 \subsection{WordPress-Powered Website}
 
@@ -103,7 +103,7 @@ On the other hand, a mechanism handling resource changes has to be implemented o
 At the time of writing (early 2015), a large number of WordPress themes and plugins contain tens or more JavaScript scripts and CSS styles, especially the more professional ones. It is caused by the fact that users like having amazingly-looking, feature-rich websites. The problem with this fact is twofold:
  
 \begin{itemize}
-	\item \textbf{There is a limit on the number of concurrent downloads of resources from the same domain. Both Internet Explorer 8 and Google Chrome allow six concurrent downloads, while Firefox eight \cite{Study:Browser-concurrent-downloads}.}
+	\item \textbf{There is a limit on the number of concurrent downloads of resources from the same domain. Both Internet Explorer 8 and Google Chrome allow six concurrent downloads, while Firefox eight \cite{SO:Browser-concurrent-downloads}.}
 	\item \textbf{Each request carry an overhead of constructing a packet, sending it to the web server and waiting for the reply.}
 \end{itemize}
 
@@ -126,8 +126,7 @@ JavaScript scripts and CSS stylesheets can be minified before being inserted int
 
 \subsection*{Image compression}
 
-Images, particularly those produced by the JPEG lossy compression mechanism, can be compressed further, thus reducing their size while keeping tolerable quality of picture details. At the time of writing this work, the cost of satisfying web service \cite{Service:Smushit} for image compression is zero.
-
+Images, particularly those produced by the JPEG lossy compression mechanism, can be compressed further, thus reducing their size while keeping tolerable quality of picture details. At the time of writing this work, the cost of satisfying WordPress plugin \cite{WP-Plugin:EWWW-Image-Optimizer} for image compression is zero.
 
 \subsection*{Hypertext documents and other text-based assets compression}
 
@@ -147,7 +146,7 @@ Another quite useful concept is called \textbf{load balancing}. It is a method o
 
 In this section, we will be analyzing and discussing similar studies done by other web developers and programmers. Before we look at their results, we need to have a basic understanding of the web serving software they were comparing. \\
 
-\textbf{Apache HTTP}, also called Apache, is a free and open source world's most widely used (57.9\%\cite{Apache:Usage} of all websites whose web server we know) web server software. \textbf{Nginx}, released nearly 10 years later than Apache, was designed with a high concurrency, high performance and low memory usage in mind, specifically to solve the C10K problem \cite{Nginx:c10k}. \\
+\textbf{Apache HTTP}, also called Apache, is a free and open source world's most widely used (57.5\%\cite{Apache:Usage} of all websites whose web server we know) web server software. \textbf{Nginx}, released nearly 10 years later than Apache, was designed with a high concurrency, high performance and low memory usage in mind, specifically to solve the C10K problem \cite{Nginx:c10k}. \\
 
 Both \textbf{PHP} and \textbf{HHVM} are PHP script interpreters. HipHop Virtual Machine (HHVM), released by Facebook in 2011, was developed to increase the performance of PHP script execution on the Facebook site. Both of them are open source and free to use.
 
