@@ -1,6 +1,6 @@
 The first step is to compare the performance of Apache and Nginx web serving applications. However, it is not necessary to compare these applications in their speed of serving static content (for example HTML files) because it has been proven and because of Nginx architecture that Nginx is more performant in this manner. What is interesting to compare, though, is running of PHP under Apache and Nginx.
 
-\section{Apache with mod\_php}
+\section{Apache with mod\_php} \label{nginx-apache}
 
 "Apache supports a variety of features, many implemented as compiled modules which extend the core functionality." "Instead of implementing a single architecture, Apache provides a variety of MultiProcessing Modules (MPMs), which allow Apache to run in a process-based, hybrid (process and thread) or event-hybrid mode, to better match the demands of each particular infrastructure." \cite{Apache:Wiki}\\
 
@@ -167,7 +167,7 @@ Looking at the Htop process viewer screenshot, in comparison to using PHP-FPM, R
 
 If this was a competition, choosing Nginx with HHVM as your web-serving stack would beat all its contestants, therefore we recommend going with it.
 
-\subsection{Advanced WordPress and HHVM}
+\subsection{Advanced WordPress and HHVM} \label{advanced-wordpress-hhvm}
 
 Our standard test did not benchmark HHVM's full potential, as we could observe from the figure \ref{fig:nginx_hhvm}. We will make the WordPress-powered site more complex. The new installation will include:
 

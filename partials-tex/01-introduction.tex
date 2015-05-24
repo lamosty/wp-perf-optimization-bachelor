@@ -1,6 +1,6 @@
 \section{Problem Definition}
 
-Website loading speed has a critical impact on page abandonment rate among its visitors. According to a Google experiment, website loading time worsened only by \textbf{half of a second} had a 20\% drop in its visitor’s traffic. \cite{KISSmetrics:Speed-Google} From the figure \ref{fig:kissmetrics-page-abandonment} \cite{Fig:Kissmetrics-page-abandonment}, we can see a chart of page abandonment relative to a web page loading time in seconds. By the time a ten-second-long web page is loaded to its visitors, more than 35\% of them will close the page, never seeing what is on it.
+Website loading speed has a critical impact on page abandonment rate among its visitors. According to a Google experiment, website loading time worsened only by \textbf{half of a second} had a 20\% drop in its visitor’s traffic. \cite{KISSmetrics:Speed-Google} From the figure \ref{fig:kissmetrics-page-abandonment} \cite{Fig:Kissmetrics-page-abandonment}, we can see a chart of page abandonment relative to a web page loading time in seconds. By the time a ten-second loading web page is displayed, more than 35\% of its visitors will have closed the page.
 
 \begin{figure}[H]
 \begin{center}
@@ -42,11 +42,11 @@ Before we can delve into solutions to our problems, we need to list and describe
 
 \subsection{Web-Serving Software Efficiency}
 
-Using the most performant and the least resource-hungry web-serving software is usually the most effective way of improving web page loading speed. Some studies have found that even small changes to configuration files can a difference. In our work, we are making comparisons between the two most popular web-serving applications, namely Apache HTTP and Nginx, as well as comparisons between different PHP interpreters. Jump to section \ref{sec:nginx-apache} for more details and statistics. 
+Using the most performant and the least resource-hungry web-serving software is usually the most effective way of improving web page loading speed. Some studies have found that even small changes to configuration files can a difference. In our work, we are making comparisons between the two most popular web-serving applications, namely Apache HTTP and Nginx, as well as comparisons between different PHP interpreters. Jump to chapter \ref{nginx-apache} for more details and statistics. 
 
 \subsection{Server-Side Caching}
 
-Let us divide server-side \gls{caching} into three main categories:
+Let us divide server-side \gls{caching} into four main categories:
 
 \begin{enumerate}
     \item\textbf{Caching intermediate PHP code}
@@ -71,9 +71,9 @@ PHP source code is interpreted on each run, thus the PHP interpreter has to read
 
 While a website based on WordPress is dynamic, in some cases it is possible to store the constructed web page for subsequent usage. This process is usually called page caching and it is suitable for websites with static blocks of content. However, problems arise when we have to handle special cases such as when a visitor is logged into our website. In that case, we are not able to cache the request because other visitors would see the logged-in visitor’s cached content instead of a general one.
 
-\subsection*{Static resources (files) caching}
+\subsection*{Static resources caching}
 
-When our website consists of a large number of (smaller) files such as JavaScript scripts, CSS stylesheets, images and others, caching these resources is an idea worth mentioning. They are constructed and loaded on the initial request, stored in a local web server cache and retrieved from the cache on subsequent requests.\\ 
+When our website consists of a large number of smaller files such as JavaScript scripts, CSS stylesheets, images and others, caching these resources is an idea worth mentioning. They are constructed and loaded on the initial request, stored in a local web server cache and retrieved from the cache on subsequent requests.\\ 
 
 The largest disadvantage of static file caching is usually a drop in free memory available to different needs of the web server, especially when files are cached in RAM memory.
 
@@ -83,13 +83,13 @@ When multiple requests to our web server trigger the same database queries, it i
 
 \subsection{Client-Side Caching}
 
-What makes client-side caching different from the server-side caching is that data is stored locally in the visitor’s browser, not on the server to which the requests are made. \cite{Study:Mnot-caching} The whole hypertext document with all its resources including JavaScript scripts and CSS stylesheets can get cached in client's browser storage, loaded from it on consecutive requests. Naturally, the most notable advantage of client-side caching is the fact that the user’s browser does not need to download the locally cached resources. \\
+What makes client-side caching different from the server-side caching is that data is stored locally in the visitor’s browser, not on the server to which the requests are made. \cite{Study:Mnot-caching} The whole hypertext document with all its resources including JavaScript scripts and CSS stylesheets can get cached in client's browser storage, loaded from it on consecutive requests. Naturally, the most notable advantage of client-side caching is the fact that the user’s browser does not need to download the locally cached resources again. \\
 
 On the other hand, we need to implement a mechanism which can handle resource changes on the server-side. When not done properly, some of the visitors might see outdated content due to the reason that the visitor’s browser has not been instructed to revalidate its cache.
 
 \subsection{JavaScript and CSS Resource Minification and Combination}
 
-At the time of writing (early 2015), a large number of WordPress themes and plugins contain tens or more JavaScript scripts and CSS styles, especially the more professional ones. It is caused by the fact that users like having amazingly looking, feature-rich websites. The problem with this fact is twofold:
+At the time of writing (early 2015), a large number of WordPress themes and plugins contain tens or more JavaScript scripts and CSS styles, especially the more professional ones. It is caused by the fact that users like having complex, polished and feature-rich websites. The problem with this fact is twofold:
  
 \begin{itemize}
 	\item \textbf{There is a limit on the number of concurrent downloads of resources from the same domain. Both Internet Explorer 8 and Google Chrome allow six concurrent downloads while Firefox eight. \cite{SO:Browser-concurrent-downloads}}
@@ -115,7 +115,7 @@ JavaScript scripts and CSS stylesheets can be minified. Minification is a proced
 
 \subsection*{Image compression}
 
-Images, particularly those produced by the JPEG lossy compression mechanism, can be compressed further, thus reducing their size while keeping a tolerable quality of picture details. At the time of writing this work, the cost of satisfying WordPress plugin \cite{WP-Plugin:EWWW-Image-Optimizer} for image compression is zero.
+Images, particularly those produced by the JPEG lossy compression mechanism, can be compressed further, thus reducing their size while keeping a tolerable quality of picture details. At the time of writing this work, there exist several free of charge and open source WordPress plugins for image compression such as EWWW Image Optimizer \cite{WP-Plugin:EWWW-Image-Optimizer}.
 
 \subsection*{Hypertext documents and other text-based assets compression}
 
@@ -123,7 +123,7 @@ Before the data is sent back in a response to visitor’s request, its size can 
 
 \subsection{Optimizing Images — Image Sprites}
 
-Images used for our website's user interface as well as other images can become more optimized for use in the web environment. A mechanism called image spriting \cite{Study:CSSwizardy-image-spriting} is a procedure during which multiple images, sometimes even all of them, get collected and combined into a single larger image — sprite. When a web page is requested, instead of loading tens of user interface icons and images, only this single one is sent back to the user, thus saving additional HTTP requests and bandwidth. When rendering the user interface, icons and images are taken from that single image.
+Images used for our website's user interface as well as other images can become more optimized for use in the web environment. A mechanism called image spriting \cite{Study:CSSwizardy-image-spriting} is a procedure during which multiple images get collected and combined into a single larger image — sprite. When a web page is requested, instead of loading tens of user interface icons and images, only this single one is sent back to the user, thus saving additional HTTP requests and bandwidth. When rendering the user interface, icons and images are taken from that single image.
 
 \subsection{CDN and Resource Distribution}
 
