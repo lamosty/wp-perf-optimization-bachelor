@@ -49,7 +49,7 @@ We are now ready to benchmark web serving software.
 
 Apart from having a server running a WordPress-based site, we need a tool for load testing the server. Initially, we used a popular command line utility called "ab" (standing for Apache Bench). However, this approach also required a second server from which the ab utility would be run. What is more, storing the tests results and plotting them on charts with ab is not trivial. \\
 
-We found a simple cloud-based load testing service called "loader.io" \cite{Loader.io:main_site}. In a subscription, free of charge, we get 10,000 clients (requests) per test and one target host. For our purposes, these parameters are enough. \\
+We found a simple cloud-based \gls{load testing} service called "loader.io" \cite{Loader.io:main_site}. In a subscription, free of charge, we get 10,000 clients (requests) per test and one target host. For our purposes, these parameters are enough. \\
 
 After creating an account at loader.io and adding a target host (our testing VPS server), we are presented with a dialog to verify the ownership of the server. While putting the token manually in a text file to our WordPress site directory will allow loader.io to verify the server, it is better to come up with an Ansible playbook which would automate this task for us. Below is the YAML definition file of the playbook.
 

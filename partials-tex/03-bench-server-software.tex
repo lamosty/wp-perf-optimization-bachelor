@@ -16,7 +16,7 @@ We are going to load test Apache with mod\_php running a simple WordPress-powere
 ansible-playbook -i hosts apache_mod_php.yml
 \end{lstlisting}
 
-The playbook will configure Apache and create a virtual host for the WordPress site. We are using a default Apache HTTP configuration file without any performance modifications. \cite{WP_Ansible:apache.conf}\\
+The playbook will configure Apache to serve the WordPress site. We are using a default Apache HTTP configuration file without any performance modifications. \cite{WP_Ansible:apache.conf}\\
 
 To deploy the simple WordPress site, run the "wordpress\_basic.yml" Ansible playbook. It will download the latest version of WordPress with the default theme and installs the database tables. We are now ready to carry out the testing. \\
 
@@ -79,7 +79,7 @@ Loader.io testing results page \cite{Loader.io:apache_mod_php} also shows us mor
 
 Due to Nginx's asynchronous event-driven nature, its primary use case scenario is to relay the incoming requests to another application for processing, such as PHP-FPM, as quickly as possible, thus being able to handle large amounts of concurrent connections. \\
 
-PHP-FPM is a FastCGI server bound to a TCP port or socket, bundled with the official PHP interpreter. It listens for PHP requests (request for a PHP script), responding with the resulting content (usually HTML). Comparing Apache's mod\_php with PHP-FPM, while a PHP request is processed by Apache directly, in case of Nginx, it has to be relayed to PHP-FPM, which is able to process it. We do not have to know how it works in a greater depth to understand that when a request is flowing through multiple applications, more server resources have to be consumed. On the other hand, as Nginx and PHP-FPM are specialized applications, they are more efficient when put together. It can be observed from the figures below.
+PHP-FPM is a FastCGI server bound to a TCP port or socket, bundled with the official PHP interpreter. It listens for PHP requests (request for a PHP script), responding with the resulting content (usually HTML). Comparing Apache's mod\_php with PHP-FPM, while a PHP request is processed by Apache directly, in case of Nginx, it has to be relayed to PHP-FPM, which is able to process it. We do not have to know how it works in a greater depth to understand that when a request is flowing through multiple applications, more \gls{server resources} have to be consumed. On the other hand, as Nginx and PHP-FPM are specialized applications, they are more efficient when put together. It can be observed from the figures below.
 
 \subsection{Load testing Nginx with PHP-FPM}
 
@@ -174,7 +174,7 @@ Our standard test did not benchmark HHVM's full potential, as we could observe f
 \begin{itemize}
 	\item several plugins, such as WooCommerce, Jetpack, WordPress SEO by Yoast and others \cite{WP_Ansible:group_vars}
 	\item a free e-commerce theme Storefront \cite{WP:Storefront}
-	\item WooCommerce dummy data
+	\item WooCommerce \gls{dummy data}
 	\item WP Test dummy data \cite{WP:WP_Test-dummy-data}
 \end{itemize}
 

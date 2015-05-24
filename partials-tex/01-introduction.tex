@@ -42,7 +42,7 @@ Before we can delve into solutions to our problems, we need to list and describe
 
 \subsection{Web-Serving Software Efficiency}
 
-Using the most performant and the least resource-hungry web-serving software is usually the most effective way of improving web page loading speed. Some studies have found that even small changes to configuration files can a difference. In our work, we are making comparisons between the two most popular web-serving applications, namely Apache HTTP and Nginx, as well as comparisons between different PHP interpreters. Jump to chapter \ref{nginx-apache} for more details and statistics. 
+Using the most performant and the least resource-hungry web-serving software is usually the most effective way of improving web page loading speed. Some studies have found that even small changes to configuration files can a difference. In our work, we are making comparisons between the two most popular web-serving applications, namely Apache HTTP and Nginx, as well as comparisons between different PHP interpreters. Jump to section \ref{nginx-apache} for more details and statistics. 
 
 \subsection{Server-Side Caching}
 
@@ -57,7 +57,7 @@ Let us divide server-side \gls{caching} into four main categories:
 
 \subsection*{Caching intermediate PHP code}
 
-PHP source code is interpreted on each run, thus the PHP interpreter has to read and collect all required files each time a new request is sent to our WordPress-based website. With PHP opcode caching, an intermediate source code is generated on the first run and stored temporarily. When a new request comes, instead of going through all the files, PHP loads cached opcode and executes it. We can observe the process from the figure \ref{fig:php-opcode-caching} \cite{Fig:PHP-opcode-caching}.
+PHP source code is interpreted on each run, thus the PHP interpreter has to read and collect all required files each time a new request is sent to our WordPress-based website. With PHP \gls{opcode} caching, an intermediate source code is generated on the first run and stored temporarily. When a new request comes, instead of going through all the files, PHP loads cached opcode and executes it. We can observe the process from the figure \ref{fig:php-opcode-caching} \cite{Fig:PHP-opcode-caching}.
 
 \begin{figure}[H]
 \begin{center}
