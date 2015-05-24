@@ -53,7 +53,7 @@ In the screenshot, we can see a table of currently running processes. The column
 \end{center}
 \end{figure}
 
-It is crucial to notice that the yellow bars in the Memory bar section show cached memory, which is not counted towards the used memory since it can be misleading at times (will discuss this a bit later).
+It is crucial to notice that the blue bars in the Memory bar section show cached memory, which is not counted towards the used memory since it can be misleading at times (will discuss this a bit later).
 
 \begin{figure}[H]
 \begin{center}
@@ -119,7 +119,7 @@ Although we could tweak Apache with mod\_php to have a better performance, it ha
 \end{center}
 \end{figure}
 
-Astute readers might notice that MariaDB process (/usr/sbin/mysqld) consumes more memory (RES column) than Htop's Mem gauge total used memory is showing (46 MB) alone. As we have explained from the figure \ref{fig:htop_help_gauges}, memory bar is not counting the cached memory to its total used value. The only indication is the yellow bars which follow the green ones.
+Astute readers might notice that MariaDB process (/usr/sbin/mysqld) consumes more memory (RES column) than Htop's Mem gauge total used memory is showing (46 MB) alone. As we have explained from the figure \ref{fig:htop_help_gauges}, memory bar is not counting the cached memory to its total used value. The only indication is the blue bars which follow the pink ones.
 
 \section{Nginx + HHVM}
 
